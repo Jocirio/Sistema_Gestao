@@ -7,3 +7,5 @@ asyncpg
 passlib[bcrypt]
 python-jose[cryptography]
 python-multipart
+passlib[bcrypt]
+python-jose[cryptography]
