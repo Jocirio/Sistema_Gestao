@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #222;
+    background: #fff;
+  }
+
+  /* ── Cabeçalho ── */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid #0C447C;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .header-logo img {
+    max-height: 64px;
+    max-width: 180px;
+  }
+  .header-logo .no-logo {
+    font-size: 18px;
+    font-weight: bold;
+    color: #0C447C;
+  }
+  .header-info {
+    text-align: right;
+  }
+  .header-info .os-number {
+    font-size: 20px;
+    font-weight: bold;
+    color: #0C447C;
+  }
+  .header-info .os-label {
+    font-size: 10px;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .header-info .issued-at {
+    font-size: 10px;
+    color: #444;
+    margin-top: 4px;
+  }
+
+  /* ── Status badge ── */
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 6px;
+  }
+  .status-encerrada  { background: #EAF3DE; color: #27500A; }
+  .status-em_execucao { background: #FAEEDA; color: #633806; }
+  .status-emitida    { background: #E6F1FB; color: #0C447C; }
+  .status-rascunho   { background: #F1EFE8; color: #5F5E5A; }
+  .status-devolvida  { background: #FCEBEB; color: #791F1F; }
+
+  /* ── Título da seção ── */
+  .section-title {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #0C447C;
+    border-bottom: 1px solid #0C447C;
+    padding-bottom: 3px;
+    margin: 14px 0 8px;
+  }
+
+  /* ── Grid de campos ── */
+  .field-grid {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .field-row {
+    display: table-row;
+  }
+  .field-cell {
+    display: table-cell;
+    padding: 4px 8px 4px 0;
+    vertical-align: top;
+    width: 50%;
+  }
+  .field-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #888;
+    margin-bottom: 1px;
+  }
+  .field-value {
+    font-size: 11px;
+    color: #222;
+    font-weight: 500;
+  }
+  .field-value.empty {
+    color: #aaa;
+    font-style: italic;
+    font-weight: normal;
+  }
+
+  /* ── Caixa de destaque ── */
+  .highlight-box {
+    background: #E6F1FB;
+    border-left: 3px solid #0C447C;
+    padding: 8px 10px;
+    margin: 8px 0;
+    border-radius: 0 4px 4px 0;
+  }
+  .highlight-box .label {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #185FA5;
+    letter-spacing: 0.5px;
+    margin-bottom: 3px;
+  }
+  .highlight-box .value {
+    font-size: 12px;
+    font-weight: bold;
+    color: #0C447C;
+  }
+
+  /* ── Tabela de adiantamentos ── */
+  table.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 6px;
+    font-size: 10px;
+  }
+  table.data-table thead tr {
+    background: #0C447C;
+    color: #fff;
+  }
+  table.data-table thead th {
+    padding: 5px 8px;
+    text-align: left;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  table.data-table tbody tr:nth-child(even) {
+    background: #F5F7FA;
+  }
+  table.data-table tbody td {
+    padding: 4px 8px;
+    border-bottom: 1px solid #e8e8e8;
+    color: #333;
+  }
+  table.data-table tfoot tr {
+    background: #EAF3DE;
+    font-weight: bold;
+  }
+  table.data-table tfoot td {
+    padding: 5px 8px;
+    color: #27500A;
+  }
+  .text-right { text-align: right; }
+
+  /* ── Resumo financeiro ── */
+  .financial-summary {
+    background: #F8F9FA;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 14px;
+    margin-top: 8px;
+  }
+  .fin-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 3px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 11px;
+  }
+  .fin-row:last-child { border-bottom: none; }
+  .fin-row .fin-label { color: #555; }
+  .fin-row .fin-value { font-weight: 500; color: #222; }
+  .fin-row.total {
+    font-weight: bold;
+    font-size: 12px;
+    padding-top: 6px;
+    border-top: 2px solid #0C447C;
+    margin-top: 4px;
+    color: #0C447C;
+  }
+  .fin-row.balance-positive .fin-value { color: #A32D2D; } /* deve devolver */
+  .fin-row.balance-negative .fin-value { color: #27500A; } /* reembolso */
+
+  /* ── Serviços ── */
+  .services-box {
+    background: #FAFAFA;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #333;
+    line-height: 1.6;
+    min-height: 60px;
+  }
+
+  /* ── Rodapé ── */
+  .footer {
+    margin-top: 24px;
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #999;
+  }
+
+  /* ── Assinatura ── */
+  .signature-section {
+    margin-top: 32px;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+  }
+  .signature-box {
+    flex: 1;
+    text-align: center;
+  }
+  .signature-line {
+    border-top: 1px solid #555;
+    margin-bottom: 4px;
+    margin-top: 32px;
+  }
+  .signature-name {
+    font-size: 10px;
+    font-weight: bold;
+    color: #222;
+  }
+  .signature-role {
+    font-size: 9px;
+    color: #666;
+  }
+
+  /* ── Watermark rascunho ── */
+  .watermark {
+    position: fixed;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-30deg);
+    font-size: 80px;
+    font-weight: bold;
+    color: rgba(200, 0, 0, 0.08);
+    text-transform: uppercase;
+    pointer-events: none;
+    z-index: 0;
+    white-space: nowrap;
+  }
+</style>
+</head>
+<body>
+
+{% if os.status == 'rascunho' %}
+<div class="watermark">Rascunho</div>
+{% endif %}
+
+<!-- Cabeçalho -->
+<div class="header">
+  <div class="header-logo">
+    {% if company.logo_url %}
+      <img src="{{ company.logo_url }}" alt="{{ company.razao_social }}">
+    {% else %}
+      <div class="no-logo">{{ company.razao_social }}</div>
+    {% endif %}
+    <div style="font-size:9px; color:#666; margin-top:4px;">
+      {% if company.cnpj %}CNPJ: {{ company.cnpj }}{% endif %}
+    </div>
+  </div>
+  <div class="header-info">
+    <div class="os-label">Ordem de Serviço</div>
+    <div class="os-number">{{ os.os_number }}</div>
+    <div class="issued-at">Expedida em: {{ os.issued_at }}</div>
+    <span class="status-badge status-{{ os.status }}">{{ os.status | replace('_', ' ') }}</span>
+  </div>
+</div>
+
+<!-- Setor -->
+{% if os.sector_name %}
+<div style="background:#0C447C; color:#fff; display:inline-block; padding:3px 10px; border-radius:12px; font-size:9px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:10px;">
+  {{ os.sector_name }}
+</div>
+{% endif %}
+
+<!-- Colaborador -->
+<div class="section-title">Colaborador responsável</div>
+<div class="field-grid">
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Nome</div>
+      <div class="field-value">{{ os.collaborator_name }}</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Função</div>
+      <div class="field-value {% if not os.collaborator_function %}empty{% endif %}">
+        {{ os.collaborator_function or '—' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cliente -->
+<div class="section-title">Cliente e local de execução</div>
+<div class="field-grid">
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Cliente</div>
+      <div class="field-value">{{ os.client_name }}</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Unidade / Setor</div>
+      <div class="field-value {% if not os.client_unit_name %}empty{% endif %}">
+        {{ os.client_unit_name or '—' }}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Transporte e datas -->
+<div class="section-title">Deslocamento</div>
+<div class="field-grid">
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Data de ida</div>
+      <div class="field-value">{{ os.departure_date }}</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Data de volta</div>
+      <div class="field-value">{{ os.return_date }}</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Dias de permanência</div>
+      <div class="field-value">{{ os.days_away }} dia(s)</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Meio de transporte</div>
+      <div class="field-value">{{ os.transport_type | replace('_', ' ') | title }}</div>
+    </div>
+  </div>
+  {% if os.vehicle_plate %}
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Veículo (placa)</div>
+      <div class="field-value">{{ os.vehicle_plate }}</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Km total (ida + volta)</div>
+      <div class="field-value">
+        {% if os.km_outbound %}
+          {{ os.km_outbound }} km (ida) + {{ os.km_return }} km (volta) = {{ os.km_total }} km
+        {% else %}—{% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Serviços -->
+<div class="section-title">Serviços a executar</div>
+<div class="services-box">
+  {{ os.services_description or 'Não especificado.' }}
+</div>
+
+<!-- Adiantamentos -->
+{% if advances %}
+<div class="section-title">Adiantamentos</div>
+<table class="data-table">
+  <thead>
+    <tr>
+      <th>Tipo</th>
+      <th>Observação</th>
+      <th class="text-right">Valor</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for a in advances %}
+    <tr>
+      <td>{{ a.advance_type_name }}</td>
+      <td>{{ a.notes or '—' }}</td>
+      <td class="text-right">R$ {{ "%.2f"|format(a.amount) }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+  <tfoot>
+    <tr>
+      <td colspan="2">Total de adiantamentos</td>
+      <td class="text-right">R$ {{ "%.2f"|format(os.advances_total) }}</td>
+    </tr>
+  </tfoot>
+</table>
+{% endif %}
+
+<!-- Resumo financeiro -->
+<div class="section-title">Resumo financeiro</div>
+<div class="financial-summary">
+  <div class="fin-row">
+    <span class="fin-label">Valor da diária ({{ os.collaborator_function or 'função' }})</span>
+    <span class="fin-value">R$ {{ "%.2f"|format(os.daily_rate_snapshot or 0) }}/dia</span>
+  </div>
+  <div class="fin-row">
+    <span class="fin-label">Diárias ({{ os.days_away }} dia(s))</span>
+    <span class="fin-value">R$ {{ "%.2f"|format(os.daily_total or 0) }}</span>
+  </div>
+  <div class="fin-row">
+    <span class="fin-label">Total de adiantamentos</span>
+    <span class="fin-value">R$ {{ "%.2f"|format(os.advances_total) }}</span>
+  </div>
+  {% if os.extra_costs_total > 0 %}
+  <div class="fin-row">
+    <span class="fin-label">Custos extras (empresa)</span>
+    <span class="fin-value">R$ {{ "%.2f"|format(os.extra_costs_total) }}</span>
+  </div>
+  {% endif %}
+  {% if os.spent_total is not none %}
+  <div class="fin-row">
+    <span class="fin-label">Total gasto (prestação de contas)</span>
+    <span class="fin-value">R$ {{ "%.2f"|format(os.spent_total) }}</span>
+  </div>
+  {% endif %}
+  {% if os.balance is not none %}
+  <div class="fin-row {% if os.balance > 0 %}balance-positive{% elif os.balance < 0 %}balance-negative{% endif %}">
+    <span class="fin-label">
+      {% if os.balance > 0 %}Saldo a devolver{% elif os.balance < 0 %}Reembolso a pagar{% else %}Saldo zerado{% endif %}
+    </span>
+    <span class="fin-value">R$ {{ "%.2f"|format(os.balance | abs) }}</span>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Assinaturas -->
+<div class="signature-section">
+  <div class="signature-box">
+    <div class="signature-line"></div>
+    <div class="signature-name">{{ os.issued_by_name }}</div>
+    <div class="signature-role">Emissor da O.S.</div>
+  </div>
+  <div class="signature-box">
+    <div class="signature-line"></div>
+    <div class="signature-name">{{ os.collaborator_name }}</div>
+    <div class="signature-role">Colaborador responsável</div>
+  </div>
+  <div class="signature-box">
+    <div class="signature-line"></div>
+    <div class="signature-name">Financeiro</div>
+    <div class="signature-role">Aprovação / Aceite</div>
+  </div>
+</div>
+
+<!-- Rodapé -->
+<div class="footer">
+  <span>{{ company.razao_social }} {% if company.cnpj %}· CNPJ {{ company.cnpj }}{% endif %} {% if company.endereco %}· {{ company.endereco }}{% endif %}</span>
+  <span>O.S. {{ os.os_number }} · Gerada em {{ generated_at }}</span>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 11px;
+    color: #222;
+    background: #fff;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 3px solid #085041;
+    padding-bottom: 12px;
+    margin-bottom: 16px;
+  }
+  .header-logo img { max-height: 64px; max-width: 180px; }
+  .header-logo .no-logo { font-size: 18px; font-weight: bold; color: #085041; }
+  .header-info { text-align: right; }
+  .header-info .report-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #085041;
+  }
+  .header-info .report-sub {
+    font-size: 10px;
+    color: #666;
+    margin-top: 3px;
+  }
+  .finalized-badge {
+    display: inline-block;
+    background: #EAF3DE;
+    color: #27500A;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 5px;
+  }
+
+  .section-title {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #085041;
+    border-bottom: 1px solid #085041;
+    padding-bottom: 3px;
+    margin: 14px 0 8px;
+  }
+
+  .field-grid { display: table; width: 100%; }
+  .field-row { display: table-row; }
+  .field-cell { display: table-cell; padding: 4px 8px 4px 0; vertical-align: top; width: 50%; }
+  .field-label { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; margin-bottom: 1px; }
+  .field-value { font-size: 11px; color: #222; font-weight: 500; }
+
+  .content-box {
+    background: #FAFAFA;
+    border: 1px solid #E0E0E0;
+    border-radius: 4px;
+    padding: 12px 14px;
+    margin-top: 6px;
+    font-size: 11px;
+    color: #333;
+    line-height: 1.7;
+    min-height: 80px;
+  }
+
+  /* ── Fotos ── */
+  .photos-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .photo-item {
+    width: 180px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    page-break-inside: avoid;
+  }
+  .photo-item img {
+    width: 100%;
+    height: 130px;
+    object-fit: cover;
+    display: block;
+  }
+  .photo-caption {
+    padding: 4px 6px;
+    font-size: 9px;
+    color: #666;
+    background: #F8F8F8;
+    border-top: 1px solid #eee;
+  }
+
+  /* ── Assinaturas ── */
+  .signatures-list {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .signature-card {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px 12px;
+    min-width: 160px;
+    page-break-inside: avoid;
+    text-align: center;
+  }
+  .signature-card img {
+    max-height: 50px;
+    max-width: 150px;
+    display: block;
+    margin: 0 auto 6px;
+  }
+  .sig-name {
+    font-size: 10px;
+    font-weight: bold;
+    color: #222;
+  }
+  .sig-role {
+    font-size: 9px;
+    color: #666;
+    margin-top: 1px;
+  }
+  .sig-date {
+    font-size: 8px;
+    color: #aaa;
+    margin-top: 2px;
+  }
+
+  /* ── Destinatários ── */
+  .recipients-list {
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .recipient-chip {
+    background: #E6F1FB;
+    color: #0C447C;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-size: 10px;
+  }
+
+  /* ── Checklist ── */
+  .checklist-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 4px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 11px;
+  }
+  .checklist-item:last-child { border-bottom: none; }
+  .check-box {
+    width: 14px;
+    height: 14px;
+    border: 1.5px solid #ccc;
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+  }
+  .check-box.done {
+    background: #1D9E75;
+    border-color: #1D9E75;
+    color: #fff;
+  }
+  .check-text { color: #333; }
+  .check-text.done-text { color: #085041; }
+  .check-meta { font-size: 9px; color: #aaa; margin-top: 1px; }
+
+  /* ── O.S. referência ── */
+  .os-ref-box {
+    background: #E1F5EE;
+    border-left: 3px solid #085041;
+    padding: 6px 10px;
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 10px;
+    font-size: 10px;
+    color: #085041;
+  }
+
+  /* ── Rodapé ── */
+  .footer {
+    margin-top: 24px;
+    border-top: 1px solid #ddd;
+    padding-top: 8px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 9px;
+    color: #999;
+  }
+
+  @media print {
+    .photo-item { page-break-inside: avoid; }
+    .signature-card { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cabeçalho -->
+<div class="header">
+  <div class="header-logo">
+    {% if company.logo_url %}
+      <img src="{{ company.logo_url }}" alt="{{ company.razao_social }}">
+    {% else %}
+      <div class="no-logo">{{ company.razao_social }}</div>
+    {% endif %}
+    <div style="font-size:9px; color:#666; margin-top:4px;">
+      {% if company.cnpj %}CNPJ: {{ company.cnpj }}{% endif %}
+    </div>
+  </div>
+  <div class="header-info">
+    <div class="report-title">Relatório de Atendimento</div>
+    <div class="report-sub">Finalizado em: {{ report.finalized_at or 'Não finalizado' }}</div>
+    <span class="finalized-badge">
+      {% if report.status == 'finalizado' %}Finalizado{% else %}Rascunho{% endif %}
+    </span>
+  </div>
+</div>
+
+<!-- Vínculo com O.S. -->
+{% if report.os_number %}
+<div class="os-ref-box">
+  Referente à Ordem de Serviço: <strong>{{ report.os_number }}</strong>
+</div>
+{% endif %}
+
+<!-- Dados do atendimento -->
+<div class="section-title">Dados do atendimento</div>
+<div class="field-grid">
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Cliente</div>
+      <div class="field-value">{{ report.client_name }}</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Unidade / Setor</div>
+      <div class="field-value">{{ report.client_unit_name or '—' }}</div>
+    </div>
+  </div>
+  <div class="field-row">
+    <div class="field-cell">
+      <div class="field-label">Técnico responsável</div>
+      <div class="field-value">{{ report.collaborator_name }}</div>
+    </div>
+    <div class="field-cell">
+      <div class="field-label">Data de emissão</div>
+      <div class="field-value">{{ report.created_at }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Título e conteúdo -->
+<div class="section-title">{{ report.title }}</div>
+<div class="content-box">{{ report.content or 'Nenhuma descrição fornecida.' }}</div>
+
+<!-- Checklist (se houver) -->
+{% if checklist_items %}
+<div class="section-title">Checklist de implantação</div>
+{% for item in checklist_items %}
+<div class="checklist-item">
+  <div class="check-box {% if item.completed %}done{% endif %}">
+    {% if item.completed %}✓{% endif %}
+  </div>
+  <div>
+    <div class="check-text {% if item.completed %}done-text{% endif %}">{{ item.title }}</div>
+    {% if item.completed and item.completed_at %}
+    <div class="check-meta">Concluído em {{ item.completed_at }}</div>
+    {% endif %}
+  </div>
+</div>
+{% endfor %}
+{% endif %}
+
+<!-- Fotos -->
+{% if photos %}
+<div class="section-title">Registros fotográficos ({{ photos | length }} foto(s))</div>
+<div class="photos-grid">
+  {% for photo in photos %}
+  <div class="photo-item">
+    <img src="{{ photo.url }}" alt="Foto {{ loop.index }}">
+    {% if photo.caption %}
+    <div class="photo-caption">{{ photo.caption }}</div>
+    {% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- Assinaturas -->
+{% if signatures %}
+<div class="section-title">Assinaturas dos participantes ({{ signatures | length }})</div>
+<div class="signatures-list">
+  {% for sig in signatures %}
+  <div class="signature-card">
+    <img src="{{ sig.signature_url }}" alt="Assinatura de {{ sig.signer_name }}">
+    <div class="sig-name">{{ sig.signer_name }}</div>
+    {% if sig.signer_role %}<div class="sig-role">{{ sig.signer_role }}</div>{% endif %}
+    <div class="sig-date">{{ sig.signed_at }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- Destinatários -->
+{% if recipients %}
+<div class="section-title">Relatório enviado para</div>
+<div class="recipients-list">
+  {% for rec in recipients %}
+  <span class="recipient-chip">{{ rec.name or rec.email }} &lt;{{ rec.email }}&gt;</span>
+  {% endfor %}
+</div>
+{% endif %}
+
+<!-- Rodapé -->
+<div class="footer">
+  <span>{{ company.razao_social }}{% if company.cnpj %} · CNPJ {{ company.cnpj }}{% endif %}</span>
+  <span>Gerado em {{ generated_at }} · Documento de uso interno e para o cliente</span>
+</div>
+
+</body>
+</html>
