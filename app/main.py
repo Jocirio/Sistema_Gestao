@@ -17,7 +17,7 @@ from app.core.exceptions import (
 from app.modules.auth.router import router as auth_router
 from app.modules.config.router import router as config_router
 from app.modules.clientes.router import router as clientes_router
-from app.modules.colaboradores.router import router as colaboradores_router
+from app.modules.colaborador.router import router
 
 
 # ---------------------------------------------------------------------------
