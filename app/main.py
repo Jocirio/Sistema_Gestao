@@ -24,6 +24,7 @@ from app.modules.gerente.router import router as gerente_router
 from app.modules.colaborador.router import router as colaborador_router
 from app.modules.veiculos.router import router as veiculos_router
 from app.modules.financeiro.router import router as financeiro_router
+from app.modules.portal.router import router as portal_router
 
 
 # ---------------------------------------------------------------------------
@@ -106,6 +107,7 @@ app.include_router(gerente_router,       prefix=API_PREFIX)
 app.include_router(colaborador_router,   prefix=API_PREFIX)
 app.include_router(veiculos_router,      prefix=API_PREFIX)
 app.include_router(financeiro_router,    prefix=API_PREFIX)
+app.include_router(portal_router,        prefix=API_PREFIX)
 # app.include_router(comercial_router,    prefix=API_PREFIX)
 # app.include_router(gerente_router,      prefix=API_PREFIX)
 # app.include_router(os_router,           prefix=API_PREFIX)
