@@ -22,6 +22,7 @@ from app.modules.os.router import router as os_router
 from app.modules.comercial.router import router as comercial_router
 from app.modules.gerente.router import router as gerente_router
 from app.modules.colaborador.router import router as colaborador_router
+from app.modules.veiculos.router import router as veiculos_router
 
 
 # ---------------------------------------------------------------------------
@@ -102,6 +103,7 @@ app.include_router(os_router,            prefix=API_PREFIX)
 app.include_router(comercial_router,     prefix=API_PREFIX)
 app.include_router(gerente_router,       prefix=API_PREFIX)
 app.include_router(colaborador_router,   prefix=API_PREFIX)
+app.include_router(veiculos_router,      prefix=API_PREFIX)
 # app.include_router(comercial_router,    prefix=API_PREFIX)
 # app.include_router(gerente_router,      prefix=API_PREFIX)
 # app.include_router(os_router,           prefix=API_PREFIX)
