@@ -12,3 +12,5 @@ python-jose[cryptography]
 supabase
 email-validator
 celery
+redis
+python-multipart
