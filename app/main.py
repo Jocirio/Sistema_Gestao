@@ -16,6 +16,8 @@ from app.core.exceptions import (
 # Routers
 from app.modules.auth.router import router as auth_router
 from app.modules.config.router import router as config_router
+from app.modules.clientes.router import router as clientes_router
+from app.modules.colaboradores.router import router as colaboradores_router
 
 
 # ---------------------------------------------------------------------------
@@ -88,11 +90,13 @@ app.add_exception_handler(Exception, generic_exception_handler)
 
 API_PREFIX = "/api/v1"
 
-app.include_router(auth_router,   prefix=API_PREFIX)
-app.include_router(config_router, prefix=API_PREFIX)
+app.include_router(auth_router,          prefix=API_PREFIX)
+app.include_router(config_router,        prefix=API_PREFIX)
+app.include_router(clientes_router,      prefix=API_PREFIX)
+app.include_router(colaboradores_router, prefix=API_PREFIX)
 
 # Os demais routers serão incluídos aqui conforme cada módulo for desenvolvido:
-# app.include_router(clients_router,      prefix=API_PREFIX)
+# app.include_router(os_router,           prefix=API_PREFIX)
 # app.include_router(comercial_router,    prefix=API_PREFIX)
 # app.include_router(gerente_router,      prefix=API_PREFIX)
 # app.include_router(os_router,           prefix=API_PREFIX)
