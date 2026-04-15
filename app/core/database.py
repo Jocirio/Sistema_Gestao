@@ -6,12 +6,14 @@ from app.core.config import settings
 
 
 # Engine assíncrono — usa asyncpg como driver
+# statement_cache_size=0 necessário para compatibilidade com Supabase Transaction pooler
 engine = create_async_engine(
     settings.database_url,
-    echo=settings.debug,       # loga todas as queries em desenvolvimento
-    pool_pre_ping=True,        # verifica conexão antes de usar do pool
+    echo=settings.debug,
+    pool_pre_ping=True,
     pool_size=10,
     max_overflow=20,
+    connect_args={"statement_cache_size": 0},
 )
 
 # Fábrica de sessões assíncronas
