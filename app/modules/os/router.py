@@ -439,7 +439,16 @@ async def criar_os(
             RETURNING id::text
         """),
         {
-            **body.model_dump(),
+            "collaborator_id": body.collaborator_id,
+            "client_id": body.client_id,
+            "client_unit_id": body.client_unit_id,
+            "sector_id": body.sector_id,
+            "transport_type": body.transport_type,
+            "vehicle_id": body.vehicle_id,
+            "km_outbound": body.km_outbound,
+            "departure_date": body.departure_date,
+            "return_date": body.return_date,
+            "services_description": body.services_description,
             "daily_rate": daily_rate,
             "daily_total": daily_total,
             "issued_by": str(current_user.user_id),
